@@ -1,0 +1,71 @@
+<script setup>
+import { defineProps, onBeforeMount, ref } from 'vue';
+import ePub from 'epubjs'
+
+const props = defineProps(['url'])
+const url = ref(props.url)
+
+
+let book = ePub(url.value).on('book:pageChanged', function (location) { console.log(location.anchorPage, location.pageRange) });;
+let rendition = book.renderTo("area", {
+    width: '1000px',
+    height: '600px',
+    flow: "paginated",
+    spread: 'both', // none-单栏 both-两栏
+    allowScriptedContent: true,
+});
+
+
+onBeforeMount(() => {
+    rendition.display();
+    book.ready.then(() => {
+        return book.locations
+            .generate(
+                750 * (window.innerWidth / 375) * (32 / 16)
+            )
+            .then((locations) => {
+                this.refreshLocation();
+                this.SET_BOOKAVAIABLE(true);
+            });
+    });
+})
+
+
+
+function nextPage() {
+    rendition.next();
+}
+
+function prevPage() {
+    rendition.prev();
+}
+</script>
+
+<template>
+    <div>
+        <div id="area">
+
+
+        </div>
+
+        <div class="operation">
+            <n-space>
+                <n-button strong secondary type="primary" @click="prevPage">
+                    上一页
+                </n-button>
+                <n-button strong secondary type="primary" @click="nextPage">
+                    下一页
+                </n-button>
+            </n-space>
+        </div>
+
+
+    </div>
+</template>
+
+<style scoped>
+.operation {
+    display: flex;
+    justify-content: center;
+}
+</style>

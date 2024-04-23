@@ -1,0 +1,47 @@
+
+
+<script setup>
+import { defineComponent, ref } from "vue";
+
+const token = localStorage.getItem('token');
+const previewImageUrlRef = ref("");
+
+function handlePreview(file) {
+  const { url } = file;
+  previewImageUrlRef.value = url;
+  console.log(url)
+}
+
+const handleFinish = ({
+  file,
+  event
+}) => {
+  console.log(event);
+  console.log(file)
+};
+// export default defineComponent({
+//   setup() {
+//     const token = localStorage.getItem('token');
+//     const previewImageUrlRef = ref("");
+//     function handlePreview(file) {
+//       const { url } = file;
+//       previewImageUrlRef.value = url;
+//       console.log(url)
+//     }
+//     return {
+//       handlePreview,
+//       previewImageUrl: previewImageUrlRef,
+//     };
+//   }
+// });
+</script>
+
+<template>
+  <n-upload action="http://127.0.0.1:5000/upload/avatar" :headers="{
+    'Authorization': `Bearer ${token}`
+  }" list-type="image-card" @preview="handlePreview" @finish="handleFinish" />
+</template>
+
+
+<style scoped></style>
+

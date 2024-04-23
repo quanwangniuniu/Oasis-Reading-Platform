@@ -1,0 +1,36 @@
+<script setup>
+import { defineProps, onBeforeMount, ref } from 'vue';
+const props = defineProps(['folder'])
+const folder = props.folder
+
+onBeforeMount(() => {
+  console.log(folder.books.length)
+})
+</script>
+
+<template>
+  <div>
+    <n-divider />
+    <div class="subtitle">
+      {{ folder.name }} - &nbsp; - &nbsp; - &nbsp; -
+    </div>
+
+    <div v-if="folder.books.length == 0" class="on-data-container">
+      该收藏夹还没有收藏书籍哦
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.subtitle {
+  font-size: 20px;
+  color: rgb(2, 128, 2);
+  font-family: deyihei;
+}
+
+.on-data-container{
+  height: 50px;
+  display: flex;
+  justify-content: center;
+}
+</style>

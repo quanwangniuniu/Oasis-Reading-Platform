@@ -1,0 +1,13 @@
+@font-face {
+    font-family: Alimama_DongFangDaKai_Regular;
+    src: url(./Alimama_DongFangDaKai_Regular.ttf);
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: siyuansongti;
+    src: url(./Source_Han_Serif_SC_Light_Light.otf);
+    font-weight: normal;
+    font-style: normal;
+  }

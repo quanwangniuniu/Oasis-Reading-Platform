@@ -1,0 +1,3 @@
+      [console_scripts]
+      snowflake_start_server = snowflake.server:main
+      

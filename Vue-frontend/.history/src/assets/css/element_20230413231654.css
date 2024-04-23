@@ -1,0 +1,10 @@
+.el-textarea__inner{
+    resize: none;
+    height: 100px;
+}
+
+
+.el-upload{
+    height:400px; 
+    width:250px;
+  }

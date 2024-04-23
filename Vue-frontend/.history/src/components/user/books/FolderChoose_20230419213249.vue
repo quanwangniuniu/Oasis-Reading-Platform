@@ -1,0 +1,122 @@
+<script setup>
+import { defineProps, onBeforeMount, ref } from 'vue';
+import { api_getAllFolders, api_addFolder } from '../../axios/favourite_api'
+const props = defineProps(['favouriteObj'])
+const favouriteObj = ref(props.favouriteObj)
+
+// 收藏夹列表对象
+const folders = ref()
+// 是否正在创建收藏夹, 控制页面显示效果
+const isCreatingFolder = ref(false)
+// 新建文件夹的名称
+const newFolderName = ref('')
+
+const model = ref({
+  folder: null
+})
+
+
+//页面挂载时加载所有文件夹
+onBeforeMount(() => {
+  loadFolders()
+})
+
+//向后端请求收藏夹列表
+const loadFolders = () => {
+  api_getAllFolders().then(res => {
+    folders.value = res.data.data
+  })
+}
+
+//创建收藏夹
+const creatFolder = () => {
+  api_addFolder(newFolderName.value).then(res => {
+    if(res.data.code == 200){
+      console.log(res)
+      loadFolders()
+      isCreatingFolder.value = false      
+    }
+
+  })
+}
+
+</script>
+
+<template>
+  <div>
+    <n-scrollbar style="max-height: 300px" :model="model" ref="formRef">
+      <n-form :model="model">
+        <n-form-item>
+          <n-radio-group v-model:value="model.folder">
+            <n-radio v-for="folder in folders" :key="folder.id" value="123" class="radio-item">
+              {{ folder.folder_name }}
+              <div></div>
+            </n-radio>
+          </n-radio-group>
+        </n-form-item>
+        <n-button v-if="isCreatingFolder == false" strong secondary class="add-folder-btn" @click="isCreatingFolder = true">
+          新建文件夹
+        </n-button>
+        <div v-if="isCreatingFolder == true" class="create-folder">
+          <n-input v-if="isCreatingFolder == true" type="text" size="medium" class="input" v-model:value="newFolderName"/>
+          <n-button strong secondary @click="creatFolder">
+            新建
+          </n-button>           
+        </div>
+       
+      </n-form>
+    </n-scrollbar>
+
+  </div>
+</template>
+
+<style scoped>
+::v-deep .n-space {
+  display: block !important;
+}
+
+.n-radio {
+  --n-radio-size: 20px !important;
+  display: flex;
+}
+
+::v-deep .n-radio__dot {
+  border-radius: 0% !important;
+}
+
+
+::v-deep .n-form-item{
+  --n-label-height: 0px !important;
+  --n-feedback-height: 0px !important;
+}
+
+.radio-item {
+  font-size: 17px !important;
+  font-weight: lighter;
+  margin-bottom: 10px;
+}
+
+.add-folder-btn{
+  width: 350px;
+}
+
+.create-folder{
+  display: flex;
+  border: 1px solid rgb(224, 224, 230)
+}
+
+::v-deep .n-input{
+  --n-border: 0px;
+  border-radius: 0%;
+}
+
+::v-deep .n-input__border:hover{
+  --n-border: 1px solid rgb(224, 224, 230)
+  border-radius: 0%;
+}
+
+::v-deep .n-button{
+  border-left: 1px solid rgb(224, 224, 230);
+  border-radius: 0%;
+}
+</style>

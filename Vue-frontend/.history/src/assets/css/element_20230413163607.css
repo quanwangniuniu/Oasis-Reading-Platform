@@ -1,0 +1,8 @@
+.el-textarea__inner{
+    resize: none;
+    height: 100px;
+}
+
+.el-input__inner:focus{
+    border-color: rebeccapurple;
+}

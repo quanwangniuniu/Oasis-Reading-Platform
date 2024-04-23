@@ -1,0 +1,9 @@
+.el-textarea__inner{
+    resize: none;
+    height: 100px;
+}
+
+.el-input__wrapper:focus{
+    outline: 1px solid #AFECAB;
+    border: 1px solid #AFECAB;
+}
